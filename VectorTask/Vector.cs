@@ -64,7 +64,7 @@ namespace VectorTask
             }
             else
             {
-                Array.Copy(array, _elements, array.Length);
+                array.CopyTo(_elements, 0);
             }
         }
 
@@ -123,10 +123,7 @@ namespace VectorTask
 
             if (_elements.Length < vector._elements.Length)
             {
-                double[] increaseCapacityElements = new double[vector._elements.Length];
-
-                _elements.CopyTo(increaseCapacityElements, 0);
-                _elements = increaseCapacityElements;
+                Array.Resize(ref _elements, vector._elements.Length);
             }
 
             for (var i = 0; i < vector._elements.Length; i++)
@@ -144,10 +141,7 @@ namespace VectorTask
 
             if (_elements.Length < vector._elements.Length)
             {
-                double[] increaseCapacityElements = new double[vector._elements.Length];
-
-                _elements.CopyTo(increaseCapacityElements, 0);
-                _elements = increaseCapacityElements;
+                Array.Resize(ref _elements, vector._elements.Length);
             }
 
             for (var i = 0; i < vector._elements.Length; i++)

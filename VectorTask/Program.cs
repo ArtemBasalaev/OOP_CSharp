@@ -7,8 +7,8 @@ namespace VectorTask
     {
         public static void Main()
         {
-            Vector vector1 = new Vector(new double[] { 3, 2, 5 });
-            Vector vector2 = new Vector(6, new double[] { 10, 9, 0, 4 });
+            var vector1 = new Vector(new double[] { 3, 2, 5 });
+            var vector2 = new Vector(6, new double[] { 10, 9, 0, 4 });
 
             Console.WriteLine("Созданы следующие вектора:");
             Console.WriteLine(vector1);
@@ -32,7 +32,7 @@ namespace VectorTask
             Console.WriteLine("Результат установки компонента вектора по индексу 5:");
             Console.WriteLine(vector1);
 
-            double innerProduct = GetScalarProduct(vector1, vector2);
+            var innerProduct = GetScalarProduct(vector1, vector2);
             Console.WriteLine("Результат скалярного произведения векторов:");
             Console.WriteLine(innerProduct);
         }
