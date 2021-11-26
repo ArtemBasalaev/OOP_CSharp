@@ -19,7 +19,9 @@ namespace ShapesTask
                     new Circle(1.1),
                     new Square(1.2)
                 };
+
                 Console.WriteLine("В массиве хранятся следующие фигуры:");
+
                 foreach (var shape in shapes)
                 {
                     Console.WriteLine($"- {shape}");
