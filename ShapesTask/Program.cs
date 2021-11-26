@@ -1,8 +1,8 @@
 ﻿using System;
-using Shapes.Comparator;
-using Shapes.Shapes;
+using ShapesTask.Comparer;
+using ShapesTask.Shapes;
 
-namespace Shapes
+namespace ShapesTask
 {
     public class Program
     {
@@ -25,13 +25,13 @@ namespace Shapes
                     Console.WriteLine($"- {shape}");
                 }
 
-                Array.Sort(shapes, new AreaComparator());
+                Array.Sort(shapes, new AreaComparer());
 
                 var shape1 = shapes[^1];
                 var shape1Area = shapes[^1].GetArea();
                 Console.WriteLine($"Фигура с наибольшей площадью: {shape1}, S = {shape1Area:f2}");
 
-                Array.Sort(shapes, new PerimeterComparator());
+                Array.Sort(shapes, new PerimeterComparer());
 
                 var shape2 = shapes[^2];
                 var shape2Perimeter = shapes[^2].GetPerimeter();

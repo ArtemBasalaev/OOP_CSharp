@@ -1,7 +1,7 @@
 ﻿using System;
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
-namespace Shapes.Shapes
+namespace ShapesTask.Shapes
 {
     public class Rectangle : IShape
     {

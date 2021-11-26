@@ -1,4 +1,4 @@
-﻿namespace Shapes.Shapes
+﻿namespace ShapesTask.Shapes
 {
     public interface IShape
     {

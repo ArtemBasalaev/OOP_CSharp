@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shapes.Shapes;
+using ShapesTask.Shapes;
 
-namespace Shapes.Comparator
+namespace ShapesTask.Comparer
 {
-    public class AreaComparator : IComparer<IShape>
+    public class AreaComparer : IComparer<IShape>
     {
         public int Compare(IShape shape1, IShape shape2)
         {
