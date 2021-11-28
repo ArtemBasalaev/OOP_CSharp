@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
@@ -9,11 +10,13 @@ namespace VectorTask
     {
         private double[] _elements;
 
+        public int Length => _elements.Length;
+
         public Vector(int elementsCount)
         {
             if (elementsCount <= 0)
             {
-                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение: {elementsCount}");
+                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение elementsCount: {elementsCount}");
             }
 
             _elements = new double[elementsCount];
@@ -53,7 +56,7 @@ namespace VectorTask
 
             if (elementsCount <= 0)
             {
-                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение: {elementsCount}");
+                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение elementsCount: {elementsCount}");
             }
 
             _elements = new double[elementsCount];
@@ -68,19 +71,19 @@ namespace VectorTask
             }
         }
 
-        public int GetSize()
-        {
-            return _elements.Length;
-        }
-
         public override string ToString()
         {
-            return "{ " + string.Join(", ", _elements) + " }";
+            var sb = new StringBuilder();
+
+            sb.Append("{ ")
+              .Append(string.Join(", ", _elements))
+              .Append(" }");
+
+            return sb.ToString();
         }
 
         public override bool Equals(object obj)
         {
-
             if (ReferenceEquals(this, obj))
             {
                 return true;
@@ -93,16 +96,11 @@ namespace VectorTask
 
             var vector = (Vector)obj;
 
-            return Enumerable.SequenceEqual(_elements, vector._elements);
+            return _elements.SequenceEqual(vector._elements);
         }
 
         public override int GetHashCode()
         {
-            if (ReferenceEquals(_elements, null))
-            {
-                return 0;
-            }
-
             const int prime = 37;
             var hash = 1;
 
@@ -121,12 +119,12 @@ namespace VectorTask
                 throw new NullReferenceException("Передана пустая ссылка, vector = null");
             }
 
-            if (_elements.Length < vector._elements.Length)
+            if (Length < vector.Length)
             {
-                Array.Resize(ref _elements, vector._elements.Length);
+                Array.Resize(ref _elements, vector.Length);
             }
 
-            for (var i = 0; i < vector._elements.Length; i++)
+            for (var i = 0; i < vector.Length; i++)
             {
                 _elements[i] += vector._elements[i];
             }
@@ -139,12 +137,12 @@ namespace VectorTask
                 throw new NullReferenceException("Передана пустая ссылка, vector = null");
             }
 
-            if (_elements.Length < vector._elements.Length)
+            if (Length < vector.Length)
             {
-                Array.Resize(ref _elements, vector._elements.Length);
+                Array.Resize(ref _elements, vector.Length);
             }
 
-            for (var i = 0; i < vector._elements.Length; i++)
+            for (var i = 0; i < vector.Length; i++)
             {
                 _elements[i] -= vector._elements[i];
             }
@@ -152,7 +150,7 @@ namespace VectorTask
 
         public void MultiplyByScalar(double scalar)
         {
-            for (var i = 0; i < _elements.Length; i++)
+            for (var i = 0; i < Length; i++)
             {
                 _elements[i] *= scalar;
             }
@@ -165,7 +163,7 @@ namespace VectorTask
 
         public double GetLength()
         {
-            double sum = 0;
+            var sum = 0.0;
 
             foreach (var e in _elements)
             {
@@ -177,10 +175,10 @@ namespace VectorTask
 
         public double GetElement(int index)
         {
-            if (index < 0 || index >= _elements.Length)
+            if (index < 0 || index >= Length)
             {
                 throw new IndexOutOfRangeException($"Допустимый диапазон индекса 0 <= index < {_elements.Length}" +
-                                                   $" передано значение: {index}");
+                                                   $" передано значение index: {index}");
             }
 
             return _elements[index];
@@ -188,10 +186,10 @@ namespace VectorTask
 
         public void SetElement(int index, double value)
         {
-            if (index < 0 || index >= _elements.Length)
+            if (index < 0 || index >= Length)
             {
                 throw new IndexOutOfRangeException($"Допустимый диапазон индекса 0 <= index < {_elements.Length}" +
-                                                   $" передано значение: {index}");
+                                                   $" передано значение index: {index}");
             }
 
             _elements[index] = value;
@@ -245,8 +243,8 @@ namespace VectorTask
                 throw new NullReferenceException("В качестве второго аргумента передана пустая ссылка");
             }
 
-            var minElementsCount = Math.Min(vector1._elements.Length, vector2._elements.Length);
-            double result = 0;
+            var minElementsCount = Math.Min(vector1.Length, vector2.Length);
+            var result = 0.0;
 
             for (var i = 0; i < minElementsCount; i++)
             {
