@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ShapesTask.Shapes
@@ -40,18 +42,8 @@ namespace ShapesTask.Shapes
 
         public Rectangle(double width, double height)
         {
-            if (width <= 0)
-            {
-                throw new ArgumentException($"Значение ширины прямоугольника должно быть положительным числом, переданное значение width = {width}");
-            }
-
-            if (height <= 0)
-            {
-                throw new ArgumentException($"Значение высоты прямоугольника должно быть положительным числом, переданное значение height = {height}");
-            }
-
-            _width = width;
-            _height = height;
+            Width = width;
+            Height = height;
         }
 
         public override string ToString()
@@ -59,6 +51,7 @@ namespace ShapesTask.Shapes
             return $"Прямоугольник с шириной {_width:f1} и высотой {_height:f1}";
         }
 
+        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(obj, this))
@@ -73,7 +66,7 @@ namespace ShapesTask.Shapes
 
             var rectangle = (Rectangle)obj;
 
-            return Math.Abs(rectangle.GetWidth() - _width) < 1e-4 && Math.Abs(rectangle.GetHeight() - _height) < 1.0e-4;
+            return rectangle._width == _width && rectangle._height == _height;
         }
 
         public override int GetHashCode()

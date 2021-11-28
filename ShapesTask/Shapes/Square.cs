@@ -1,40 +1,36 @@
 ﻿using System;
+
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ShapesTask.Shapes
 {
     public class Square : IShape
     {
-        private double _edgeLength;
+        private double _sideLength;
 
-        public double EdgeLength
+        public double SideLength
         {
-            get => _edgeLength;
+            get => _sideLength;
 
             set
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Длина стороны квадрата должно быть положительным числом, переданное значение edgeLength = {value}");
+                    throw new ArgumentException($"Длина стороны квадрата должно быть положительным числом, переданное значение sideLength = {value}");
                 }
 
-                _edgeLength = value;
+                _sideLength = value;
             }
         }
 
-        public Square(double edgeLength)
+        public Square(double sideLength)
         {
-            if (edgeLength <= 0)
-            {
-                throw new ArgumentException($"Длина стороны квадрата должна быть положительным числом, переданное значение edgeLength = {_edgeLength}");
-            }
-
-            _edgeLength = edgeLength;
+            SideLength = sideLength;
         }
 
         public override string ToString()
         {
-            return $"Квадрат со стороной {_edgeLength:f1}";
+            return $"Квадрат со стороной {_sideLength:f1}";
         }
 
         public override bool Equals(object obj)
@@ -51,34 +47,35 @@ namespace ShapesTask.Shapes
 
             var square = (Square)obj;
 
-            return Math.Abs(square._edgeLength - _edgeLength) < 1.0e-4;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            return square._sideLength == _sideLength;
         }
 
         public override int GetHashCode()
         {
             const int prime = 37;
 
-            return prime + _edgeLength.GetHashCode();
+            return prime + _sideLength.GetHashCode();
         }
 
         public double GetWidth()
         {
-            return _edgeLength;
+            return _sideLength;
         }
 
         public double GetHeight()
         {
-            return _edgeLength;
+            return _sideLength;
         }
 
         public double GetArea()
         {
-            return _edgeLength * _edgeLength;
+            return _sideLength * _sideLength;
         }
 
         public double GetPerimeter()
         {
-            return 4 * _edgeLength;
+            return 4 * _sideLength;
         }
     }
 }

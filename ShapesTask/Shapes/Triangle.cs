@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+
+// ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ShapesTask.Shapes
 {
@@ -11,31 +14,13 @@ namespace ShapesTask.Shapes
         private double _x3;
         private double _y3;
 
-        public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
-        {
-            if (!IsTriangle(x1, y1, x2, y2, x3, y3))
-            {
-                throw new ArgumentException("Фигура не треугольник ");
-            }
-
-            _x1 = x1;
-            _y1 = y1;
-            _x2 = x2;
-            _y2 = y2;
-            _x3 = x3;
-            _y3 = y3;
-        }
-
         public double X1
         {
             get => _x1;
 
             set
             {
-                if (!IsTriangle(value, _y1, _x2, _y2, _x3, _y3))
-                {
-                    throw new ArgumentException("Фигура не треугольник");
-                }
+                CheckTriangle(value, _y1, _x2, _y2, _x3, _y3);
 
                 _x1 = value;
             }
@@ -47,10 +32,7 @@ namespace ShapesTask.Shapes
 
             set
             {
-                if (!IsTriangle(_x1, value, _x2, _y2, _x3, _y3))
-                {
-                    throw new ArgumentException("Фигура не треугольник");
-                }
+                CheckTriangle(_x1, value, _x2, _y2, _x3, _y3);
 
                 _y1 = value;
             }
@@ -62,10 +44,7 @@ namespace ShapesTask.Shapes
 
             set
             {
-                if (!IsTriangle(_x1, _y1, value, _y2, _x3, _y3))
-                {
-                    throw new ArgumentException("Фигура не треугольник");
-                }
+                CheckTriangle(_x1, _y1, value, _y2, _x3, _y3);
 
                 _x2 = value;
             }
@@ -77,10 +56,7 @@ namespace ShapesTask.Shapes
 
             set
             {
-                if (!IsTriangle(_x1, _y1, _x2, value, _x3, _y3))
-                {
-                    throw new ArgumentException("Фигура не треугольник");
-                }
+                CheckTriangle(_x1, _y1, _x2, value, _x3, _y3);
 
                 _y2 = value;
             }
@@ -92,10 +68,7 @@ namespace ShapesTask.Shapes
 
             set
             {
-                if (!IsTriangle(_x1, _y1, _x2, _y2, value, _y3))
-                {
-                    throw new ArgumentException("Фигура не треугольник");
-                }
+                CheckTriangle(_x1, _y1, _x2, _y2, value, _y3);
 
                 _x3 = value;
             }
@@ -107,18 +80,32 @@ namespace ShapesTask.Shapes
 
             set
             {
-                if (!IsTriangle(_x1, _y1, _x2, _y2, _x3, value))
-                {
-                    throw new ArgumentException("Фигура не треугольник");
-                }
+                CheckTriangle(_x1, _y1, _x2, _y2, _x3, value);
 
                 _y3 = value;
             }
         }
 
-        private static bool IsTriangle(double x1, double y1, double x2, double y2, double x3, double y3)
+        public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
         {
-            return Math.Abs((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3)) > 1.0e-4;
+            CheckTriangle(x1, y1, x2, y2, x3, y3);
+
+            _x1 = x1;
+            _y1 = y1;
+            _x2 = x2;
+            _y2 = y2;
+            _x3 = x3;
+            _y3 = y3;
+        }
+
+        private static void CheckTriangle(double x1, double y1, double x2, double y2, double x3, double y3)
+        {
+            const double epsilon = 1.0e-4;
+
+            if (Math.Abs((x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3)) < epsilon)
+            {
+                throw new ArgumentException("Фигура не треугольник");
+            }
         }
 
         public override string ToString()
@@ -126,6 +113,7 @@ namespace ShapesTask.Shapes
             return $"Треугольник с вершинами A({_x1:f1}; {_y1:f1}), B({_x2:f1}; {_y2:f1}), C({_x3:f1}; {_y3:f1})";
         }
 
+        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public override bool Equals(Object obj)
         {
             if (ReferenceEquals(obj, this))
@@ -140,16 +128,16 @@ namespace ShapesTask.Shapes
 
             Triangle triangle = (Triangle)obj;
 
-            return (Math.Abs(triangle._x1 - _x1) < 1.0e-4) && (Math.Abs(triangle._y1 - _y1) < 1.0e-4)
-                    && (Math.Abs(triangle._x2 - _x2) < 1.0e-4) && (Math.Abs(triangle._y2 - _y2) < 1.0e-4)
-                    && (Math.Abs(triangle._x3 - _x3) < 1.0e-4) && (Math.Abs(triangle._y3 - _y3) < 1.0e-4);
+            return triangle._x1 == _x1 && triangle._y1 == _y1
+                    && triangle._x2 == _x2 && triangle._y2 == _y2
+                    && triangle._x3 == _x3 && triangle._y3 == _y3;
         }
 
         public override int GetHashCode()
         {
-            int prime = 37;
+            const int prime = 37;
 
-            int hash = prime + _x1.GetHashCode();
+            var hash = prime + _x1.GetHashCode();
 
             hash = hash * prime + _y1.GetHashCode();
             hash = hash * prime + _x2.GetHashCode();
@@ -162,16 +150,16 @@ namespace ShapesTask.Shapes
 
         public double GetWidth()
         {
-            double max = Math.Max(_x1, Math.Max(_x2, _x3));
-            double min = Math.Min(_x1, Math.Min(_x2, _x3));
+            var max = Math.Max(_x1, Math.Max(_x2, _x3));
+            var min = Math.Min(_x1, Math.Min(_x2, _x3));
 
             return max - min;
         }
 
         public double GetHeight()
         {
-            double max = Math.Max(_y1, Math.Max(_y2, _y3));
-            double min = Math.Min(_y1, Math.Min(_y2, _y3));
+            var max = Math.Max(_y1, Math.Max(_y2, _y3));
+            var min = Math.Min(_y1, Math.Min(_y2, _y3));
 
             return max - min;
         }
@@ -198,11 +186,11 @@ namespace ShapesTask.Shapes
 
         public double GetArea()
         {
-            double edgeAbLength = GetEdgeAbLength();
-            double edgeBcLength = GetEdgeBcLength();
-            double edgeAcLength = GetEdgeAcLength();
+            var edgeAbLength = GetEdgeAbLength();
+            var edgeBcLength = GetEdgeBcLength();
+            var edgeAcLength = GetEdgeAcLength();
 
-            double semiPerimeter = (edgeAbLength + edgeBcLength + edgeAcLength) / 2;
+            var semiPerimeter = (edgeAbLength + edgeBcLength + edgeAcLength) / 2;
 
             return Math.Sqrt(semiPerimeter * (semiPerimeter - edgeAbLength) * (semiPerimeter - edgeBcLength) * (semiPerimeter - edgeAcLength));
         }

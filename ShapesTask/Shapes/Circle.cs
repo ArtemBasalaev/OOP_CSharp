@@ -1,4 +1,5 @@
 ﻿using System;
+
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ShapesTask.Shapes
@@ -15,7 +16,7 @@ namespace ShapesTask.Shapes
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Значение радиуса должно быть положительным числом, переданное значение r = {_radius:f1}");
+                    throw new ArgumentException($"Значение радиуса должно быть положительным числом, переданное значение r = {value:f1}");
                 }
 
                 _radius = value;
@@ -24,12 +25,7 @@ namespace ShapesTask.Shapes
 
         public Circle(double radius)
         {
-            if (radius <= 0)
-            {
-                throw new ArgumentException($"Значение радиуса должно быть положительным числом, переданное значение r = {_radius:f1}");
-            }
-
-            _radius = radius;
+            Radius = radius;
         }
 
         public override string ToString()
@@ -51,7 +47,8 @@ namespace ShapesTask.Shapes
 
             var circle = (Circle)obj;
 
-            return Math.Abs(circle.Radius - _radius) < 1.0e-4;
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            return circle._radius == _radius;
         }
 
         public override int GetHashCode()

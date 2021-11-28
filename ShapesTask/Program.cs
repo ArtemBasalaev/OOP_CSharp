@@ -1,5 +1,5 @@
 ﻿using System;
-using ShapesTask.Comparer;
+using ShapesTask.Comparers;
 using ShapesTask.Shapes;
 
 namespace ShapesTask
@@ -30,14 +30,12 @@ namespace ShapesTask
                 Array.Sort(shapes, new AreaComparer());
 
                 var shape1 = shapes[^1];
-                var shape1Area = shapes[^1].GetArea();
-                Console.WriteLine($"Фигура с наибольшей площадью: {shape1}, S = {shape1Area:f2}");
+                Console.WriteLine($"Фигура с наибольшей площадью: {shape1}, S = {shape1.GetArea():f2}");
 
                 Array.Sort(shapes, new PerimeterComparer());
 
                 var shape2 = shapes[^2];
-                var shape2Perimeter = shapes[^2].GetPerimeter();
-                Console.WriteLine($"Фигура со вторым по величине периметром: {shape2}, P = {shape2Perimeter:f2}");
+                Console.WriteLine($"Фигура со вторым по величине периметром: {shape2}, P = {shape2.GetPerimeter():f2}");
             }
             catch (ArgumentException e)
             {
