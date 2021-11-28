@@ -119,12 +119,12 @@ namespace VectorTask
                 throw new NullReferenceException("Передана пустая ссылка, vector = null");
             }
 
-            if (Length < vector.Length)
+            if (_elements.Length < vector._elements.Length)
             {
-                Array.Resize(ref _elements, vector.Length);
+                Array.Resize(ref _elements, vector._elements.Length);
             }
 
-            for (var i = 0; i < vector.Length; i++)
+            for (var i = 0; i < vector._elements.Length; i++)
             {
                 _elements[i] += vector._elements[i];
             }
@@ -137,12 +137,12 @@ namespace VectorTask
                 throw new NullReferenceException("Передана пустая ссылка, vector = null");
             }
 
-            if (Length < vector.Length)
+            if (_elements.Length < vector._elements.Length)
             {
-                Array.Resize(ref _elements, vector.Length);
+                Array.Resize(ref _elements, vector._elements.Length);
             }
 
-            for (var i = 0; i < vector.Length; i++)
+            for (var i = 0; i < vector._elements.Length; i++)
             {
                 _elements[i] -= vector._elements[i];
             }
@@ -150,7 +150,7 @@ namespace VectorTask
 
         public void MultiplyByScalar(double scalar)
         {
-            for (var i = 0; i < Length; i++)
+            for (var i = 0; i < _elements.Length; i++)
             {
                 _elements[i] *= scalar;
             }
@@ -175,24 +175,25 @@ namespace VectorTask
 
         public double GetElement(int index)
         {
-            if (index < 0 || index >= Length)
-            {
-                throw new IndexOutOfRangeException($"Допустимый диапазон индекса 0 <= index < {_elements.Length}" +
-                                                   $" передано значение index: {index}");
-            }
+            CheckIndex(index);
 
             return _elements[index];
         }
 
         public void SetElement(int index, double value)
         {
-            if (index < 0 || index >= Length)
+            CheckIndex(index);
+
+            _elements[index] = value;
+        }
+
+        private void CheckIndex(int index)
+        {
+            if (index < 0 || index >= _elements.Length)
             {
                 throw new IndexOutOfRangeException($"Допустимый диапазон индекса 0 <= index < {_elements.Length}" +
                                                    $" передано значение index: {index}");
             }
-
-            _elements[index] = value;
         }
 
         public static Vector GetSum(Vector vector1, Vector vector2)
@@ -243,7 +244,7 @@ namespace VectorTask
                 throw new NullReferenceException("В качестве второго аргумента передана пустая ссылка");
             }
 
-            var minElementsCount = Math.Min(vector1.Length, vector2.Length);
+            var minElementsCount = Math.Min(vector1._elements.Length, vector2._elements.Length);
             var result = 0.0;
 
             for (var i = 0; i < minElementsCount; i++)
