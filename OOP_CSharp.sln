@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShapesTask", "ShapesTask\Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VectorTask", "VectorTask\VectorTask.csproj", "{586759AC-EB30-495F-98AC-0A4997AAA87B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListTask", "ListTask\ListTask.csproj", "{989915AE-C672-494D-801F-C9229C81CDD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListTask", "ListTask\ListTask.csproj", "{989915AE-C672-494D-801F-C9229C81CDD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListHome", "ListHome\ListHome.csproj", "{6DAB3911-5AA9-401A-8849-6AD1334C7FA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{989915AE-C672-494D-801F-C9229C81CDD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{989915AE-C672-494D-801F-C9229C81CDD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{989915AE-C672-494D-801F-C9229C81CDD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DAB3911-5AA9-401A-8849-6AD1334C7FA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DAB3911-5AA9-401A-8849-6AD1334C7FA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DAB3911-5AA9-401A-8849-6AD1334C7FA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DAB3911-5AA9-401A-8849-6AD1334C7FA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
