@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
@@ -18,7 +17,7 @@ namespace ShapesTask.Shapes
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Значение ширины прямоугольника должно быть положительным числом, переданное значение width = {value}");
+                    throw new ArgumentException($"Значение ширины прямоугольника должно быть положительным числом, переданное значение: {value}", nameof(Width));
                 }
 
                 _width = value;
@@ -33,7 +32,7 @@ namespace ShapesTask.Shapes
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Значение высоты прямоугольника должно быть положительным числом, переданное значение height = {value}");
+                    throw new ArgumentException($"Значение высоты прямоугольника должно быть положительным числом, переданное значение: {value}", nameof(Height));
                 }
 
                 _height = value;
@@ -51,7 +50,6 @@ namespace ShapesTask.Shapes
             return $"Прямоугольник с шириной {_width:f1} и высотой {_height:f1}";
         }
 
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(obj, this))
@@ -59,13 +57,14 @@ namespace ShapesTask.Shapes
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
+            if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }
 
             var rectangle = (Rectangle)obj;
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             return rectangle._width == _width && rectangle._height == _height;
         }
 

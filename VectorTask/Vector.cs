@@ -10,13 +10,13 @@ namespace VectorTask
     {
         private double[] _elements;
 
-        public int Length => _elements.Length;
+        public int Size => _elements.Length;
 
         public Vector(int elementsCount)
         {
             if (elementsCount <= 0)
             {
-                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение elementsCount: {elementsCount}");
+                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение: {elementsCount}", nameof(elementsCount));
             }
 
             _elements = new double[elementsCount];
@@ -26,7 +26,7 @@ namespace VectorTask
         {
             if (vector == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка, vector = null");
+                throw new ArgumentNullException(nameof(vector), "Передана пустая ссылка");
             }
 
             _elements = (double[])vector._elements.Clone();
@@ -36,7 +36,7 @@ namespace VectorTask
         {
             if (array == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка, array = null");
+                throw new ArgumentNullException(nameof(array), "Передана пустая ссылка");
             }
 
             if (array.Length == 0)
@@ -51,12 +51,12 @@ namespace VectorTask
         {
             if (array == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка, array = null");
+                throw new ArgumentNullException(nameof(array), "Передана пустая ссылка");
             }
 
             if (elementsCount <= 0)
             {
-                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение elementsCount: {elementsCount}");
+                throw new ArgumentException($"Размерность вектора не может быть <= 0, передано значение: {elementsCount}", nameof(elementsCount));
             }
 
             _elements = new double[elementsCount];
@@ -75,9 +75,9 @@ namespace VectorTask
         {
             var sb = new StringBuilder();
 
-            sb.Append("{ ")
-              .Append(string.Join(", ", _elements))
-              .Append(" }");
+            sb.AppendJoin("", "{ ")
+              .AppendJoin(", ", _elements)
+              .AppendJoin("", " }");
 
             return sb.ToString();
         }
@@ -116,7 +116,7 @@ namespace VectorTask
         {
             if (vector == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка, vector = null");
+                throw new ArgumentNullException(nameof(vector), "Передана пустая ссылка");
             }
 
             if (_elements.Length < vector._elements.Length)
@@ -134,7 +134,7 @@ namespace VectorTask
         {
             if (vector == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка, vector = null");
+                throw new ArgumentNullException(nameof(vector), "Передана пустая ссылка");
             }
 
             if (_elements.Length < vector._elements.Length)
@@ -200,12 +200,12 @@ namespace VectorTask
         {
             if (vector1 == null)
             {
-                throw new NullReferenceException("В качестве первого аргумента передана пустая ссылка");
+                throw new ArgumentNullException(nameof(vector1), "Передана пустая ссылка");
             }
 
             if (vector2 == null)
             {
-                throw new NullReferenceException("В качестве второго аргумента передана пустая ссылка");
+                throw new ArgumentNullException(nameof(vector2), "Передана пустая ссылка");
             }
 
             var result = new Vector(vector1);
@@ -218,12 +218,12 @@ namespace VectorTask
         {
             if (vector1 == null)
             {
-                throw new NullReferenceException("В качестве первого аргумента передана пустая ссылка");
+                throw new ArgumentNullException(nameof(vector1), "Передана пустая ссылка");
             }
 
             if (vector2 == null)
             {
-                throw new NullReferenceException("В качестве второго аргумента передана пустая ссылка");
+                throw new ArgumentNullException(nameof(vector2), "Передана пустая ссылка");
             }
 
             var result = new Vector(vector1);
@@ -236,12 +236,12 @@ namespace VectorTask
         {
             if (vector1 == null)
             {
-                throw new NullReferenceException("В качестве первого аргумента передана пустая ссылка");
+                throw new ArgumentNullException(nameof(vector1), "Передана пустая ссылка");
             }
 
             if (vector2 == null)
             {
-                throw new NullReferenceException("В качестве второго аргумента передана пустая ссылка");
+                throw new ArgumentNullException(nameof(vector2), "Передана пустая ссылка");
             }
 
             var minElementsCount = Math.Min(vector1._elements.Length, vector2._elements.Length);

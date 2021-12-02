@@ -19,13 +19,13 @@ namespace ListHome
                     Console.WriteLine(line);
                 }
             }
-            catch (FileNotFoundException e)
+            catch (IOException e)
             {
                 Console.WriteLine("Исходный файл не найден");
                 Console.WriteLine(e);
             }
 
-            var numbersList = new List<int>(new[] { 4, 5, 6, 4, 5, 3, 2, 3 });
+            var numbersList = new List<int> { 4, 5, 6, 4, 5, 3, 2, 3 };
             Console.WriteLine("Список до удаления четных чисел:");
             Console.WriteLine(string.Join(", ", numbersList));
 
@@ -33,14 +33,14 @@ namespace ListHome
             Console.WriteLine("Список после удаления четных чисел:");
             Console.WriteLine(string.Join(", ", numbersList));
 
-            var numbersListWithDuplicates = new List<int>(new[] { 1, 5, 6, 9, 8, 9, 6, 8, 1, 1, 5, 6, 1, 5, 6 });
-            var getListWithoutDuplicates = GetListWithoutDuplicates(numbersListWithDuplicates);
+            var numbersListWithDuplicates = new List<int> { 1, 5, 6, 9, 8, 9, 6, 8, 1, 1, 5, 6, 1, 5, 6 };
+            var listWithoutDuplicates = GetListWithoutDuplicates(numbersListWithDuplicates);
 
             Console.WriteLine("Список до удаления повторяющихся чисел:");
             Console.WriteLine(string.Join(", ", numbersListWithDuplicates));
 
             Console.WriteLine("Список после удаления повторяющихся чисел:");
-            Console.WriteLine(string.Join(", ", getListWithoutDuplicates));
+            Console.WriteLine(string.Join(", ", listWithoutDuplicates));
         }
 
         public static List<string> GetLinesFromFile(string filePath)
@@ -71,7 +71,7 @@ namespace ListHome
 
         public static List<int> GetListWithoutDuplicates(List<int> list)
         {
-            var listWithoutDuplicates = new List<int>();
+            var listWithoutDuplicates = new List<int>(list.Count);
 
             foreach (var e in list)
             {

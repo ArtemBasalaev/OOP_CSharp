@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ShapesTask.Shapes
 {
-    class Triangle : IShape
+    public class Triangle : IShape
     {
         private double _x1;
         private double _y1;
@@ -113,24 +112,24 @@ namespace ShapesTask.Shapes
             return $"Треугольник с вершинами A({_x1:f1}; {_y1:f1}), B({_x2:f1}; {_y2:f1}), C({_x3:f1}; {_y3:f1})";
         }
 
-        [SuppressMessage("ReSharper", "CompareOfFloatsByEqualityOperator")]
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (ReferenceEquals(obj, this))
             {
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
+            if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }
 
-            Triangle triangle = (Triangle)obj;
+            var triangle = (Triangle)obj;
 
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             return triangle._x1 == _x1 && triangle._y1 == _y1
-                    && triangle._x2 == _x2 && triangle._y2 == _y2
-                    && triangle._x3 == _x3 && triangle._y3 == _y3;
+                                       && triangle._x2 == _x2 && triangle._y2 == _y2
+                                       && triangle._x3 == _x3 && triangle._y3 == _y3;
         }
 
         public override int GetHashCode()

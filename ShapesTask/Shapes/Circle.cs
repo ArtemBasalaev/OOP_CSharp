@@ -16,7 +16,7 @@ namespace ShapesTask.Shapes
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Значение радиуса должно быть положительным числом, переданное значение r = {value:f1}");
+                    throw new ArgumentException($"Значение радиуса должно быть положительным числом, переданное значение: {value:f1}", nameof(Radius));
                 }
 
                 _radius = value;
@@ -40,7 +40,7 @@ namespace ShapesTask.Shapes
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
+            if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }

@@ -16,7 +16,7 @@ namespace ShapesTask.Shapes
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Длина стороны квадрата должно быть положительным числом, переданное значение sideLength = {value}");
+                    throw new ArgumentException($"Длина стороны квадрата должна быть положительным числом, переданное значение: {value}", nameof(SideLength));
                 }
 
                 _sideLength = value;
@@ -40,7 +40,7 @@ namespace ShapesTask.Shapes
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
+            if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }
