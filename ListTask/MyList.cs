@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
+
+// ReSharper disable NonReadonlyMemberInGetHashCode
 
 namespace ListTask
 {
     public class MyList<T> : IList<T>
     {
         private const int DefaultCapacity = 10;
+
         private T[] _elements;
         private int _modCount;
 
@@ -39,9 +41,23 @@ namespace ListTask
 
             set
             {
-                if (_elements.Length < value)
+                if (Count > value)
                 {
-                    Array.Resize(ref _elements, value);
+                    throw new ArgumentOutOfRangeException(nameof(Capacity), "Для свойства установлено значение, которое меньше чем значение свойства Count");
+                }
+
+                if (value == _elements.Length)
+                {
+                    return;
+                }
+
+                if (Count < value)
+                {
+                    var newElements = new T[value];
+
+                    Array.Copy(_elements, newElements, Count);
+
+                    _elements = newElements;
                 }
             }
         }
@@ -55,7 +71,7 @@ namespace ListTask
         {
             if (capacity < 0)
             {
-                throw new ArgumentException($"Вместимость списка не может быть отрицательным числом, передано значение capacity = {capacity}");
+                throw new ArgumentException($"Вместимость списка не может быть отрицательным числом, передано значение: {capacity}", nameof(capacity));
             }
 
             _elements = new T[capacity];
@@ -65,7 +81,7 @@ namespace ListTask
         {
             if (array == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка");
+                throw new ArgumentNullException(nameof(array), "Передана пустая ссылка");
             }
 
             _elements = (T[])array.Clone();
@@ -76,15 +92,8 @@ namespace ListTask
         {
             if (index < 0 || index >= Count)
             {
-                throw new ArgumentException($"Выход за границы списка. Допустимый диапазон индекса 0 <= index < {index}, передан index = {index}");
+                throw new ArgumentOutOfRangeException(nameof(index), $"Выход за границы списка. Допустимый диапазон индекса 0 <= index < {Count}, передано значение: {index}");
             }
-        }
-
-        private void IncreaseCapacity()
-        {
-            var newCapacity = _elements.Length > 0 ? _elements.Length * 2 : DefaultCapacity;
-
-            Array.Resize(ref _elements, newCapacity);
         }
 
         public override string ToString()
@@ -99,8 +108,7 @@ namespace ListTask
 
             for (var i = 0; i < Count; i++)
             {
-                sb.Append(_elements[i])
-                    .Append(", ");
+                sb.Append(_elements[i]).Append(", ");
             }
 
             sb.Remove(sb.Length - 2, 2);
@@ -109,14 +117,14 @@ namespace ListTask
             return sb.ToString();
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(object obj)
         {
             if (ReferenceEquals(obj, this))
             {
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || GetType() != obj.GetType())
+            if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
@@ -130,7 +138,7 @@ namespace ListTask
 
             for (var i = 0; i < Count; i++)
             {
-                if (_elements[i].Equals(list._elements[i]))
+                if (Equals(_elements[i], list._elements[i]))
                 {
                     return false;
                 }
@@ -139,7 +147,6 @@ namespace ListTask
             return true;
         }
 
-        [SuppressMessage("ReSharper", "NonReadonlyMemberInGetHashCode")]
         public override int GetHashCode()
         {
             const int prime = 37;
@@ -147,18 +154,15 @@ namespace ListTask
 
             for (var i = 0; i < Count; i++)
             {
-                hash = prime * hash + _elements[i].GetHashCode();
+                hash = prime * hash + (_elements[i] != null ? _elements[i].GetHashCode() : 0);
             }
 
             return hash;
         }
 
-        public void TrimToSize()
+        public void TrimExcess()
         {
-            if (_elements.Length > Count)
-            {
-                Array.Resize(ref _elements, Count);
-            }
+            Capacity = Count;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -181,12 +185,12 @@ namespace ListTask
             return GetEnumerator();
         }
 
-        public void Add(T item)
+        public void Add(T element)
         {
-            Insert(Count, item);
+            Insert(Count, element);
         }
 
-        public void Insert(int index, T item)
+        public void Insert(int index, T element)
         {
             if (index != Count)
             {
@@ -195,12 +199,12 @@ namespace ListTask
 
             if (_elements.Length == Count)
             {
-                IncreaseCapacity();
+                Capacity = _elements.Length > 0 ? _elements.Length * 2 : DefaultCapacity;
             }
 
-            Array.ConstrainedCopy(_elements, index, _elements, index + 1, Count - index);
+            Array.Copy(_elements, index, _elements, index + 1, Count - index);
 
-            _elements[index] = item;
+            _elements[index] = element;
 
             Count++;
             _modCount++;
@@ -219,9 +223,9 @@ namespace ListTask
             _modCount++;
         }
 
-        public bool Remove(T item)
+        public bool Remove(T element)
         {
-            int index = IndexOf(item);
+            int index = IndexOf(element);
 
             if (index == -1)
             {
@@ -239,44 +243,43 @@ namespace ListTask
 
             if (index < Count - 1)
             {
-                Array.ConstrainedCopy(_elements, index + 1, _elements, index, Count - index - 1);
+                Array.Copy(_elements, index + 1, _elements, index, Count - index - 1);
             }
 
-            Array.Clear(_elements, Count - 1, 1);
+            _elements[Count - 1] = default;
 
             Count--;
             _modCount++;
         }
 
-        public bool Contains(T item)
+        public bool Contains(T element)
         {
-            return IndexOf(item) != -1;
+            return IndexOf(element) != -1;
         }
 
-        public int IndexOf(T item)
+        public int IndexOf(T element)
         {
-            return Array.IndexOf(_elements, item);
+            return Array.IndexOf(_elements, element, 0, Count);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
         {
             if (array == null)
             {
-                throw new NullReferenceException("Передана пустая ссылка");
+                throw new ArgumentNullException(nameof(array), "Передана пустая ссылка");
             }
 
             if (arrayIndex < 0 || arrayIndex >= array.Length)
             {
-                throw new ArgumentOutOfRangeException($"Выход за границы массива. Допустимый диапазон индекса 0 <= arrayIndex < {array.Length}," +
-                                                      $" передан arrayIndex = {arrayIndex}");
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Выход за границы массива. Допустимый диапазон индекса 0 <= arrayIndex < {array.Length}, передано значение: {arrayIndex}");
             }
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentException("В массиве недостаточно места для копирования коллекции");
+                throw new ArgumentException($"В массиве недостаточно места для копирования коллекции, передано значение: {arrayIndex}", nameof(arrayIndex));
             }
 
-            Array.ConstrainedCopy(_elements, 0, array, arrayIndex, Count);
+            Array.Copy(_elements, 0, array, arrayIndex, Count);
         }
     }
 }
