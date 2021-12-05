@@ -138,7 +138,7 @@ namespace ListTask
 
             for (var i = 0; i < Count; i++)
             {
-                if (Equals(_elements[i], list._elements[i]))
+                if (!Equals(_elements[i], list._elements[i]))
                 {
                     return false;
                 }
