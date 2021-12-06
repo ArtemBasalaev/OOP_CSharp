@@ -41,7 +41,7 @@ namespace VectorTask
 
             if (array.Length == 0)
             {
-                throw new ArgumentException("Передан массив нулевой длины");
+                throw new ArgumentException("Передан массив нулевой длины", nameof(array));
             }
 
             _elements = (double[])array.Clone();
@@ -75,9 +75,9 @@ namespace VectorTask
         {
             var sb = new StringBuilder();
 
-            sb.AppendJoin("", "{ ")
+            sb.Append("{ ")
               .AppendJoin(", ", _elements)
-              .AppendJoin("", " }");
+              .Append(" }");
 
             return sb.ToString();
         }
