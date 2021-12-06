@@ -4,32 +4,29 @@ namespace Lambda
 {
     public class Person
     {
-        private readonly string _name;
-        private readonly int _age;
+        public string Name { get; private set; }
 
-        public string Name => _name;
-
-        public int Age => _age;
+        public int Age { get; private set; }
 
         public Person(string name, int age)
         {
             if (age <= 0)
             {
-                throw new ArgumentException($"Значение возраста должно быть положительным числом, переданное значение age = {age}");
+                throw new ArgumentException($"Значение возраста должно быть положительным числом, переданное значение: {age}", nameof(age));
             }
 
             if (name == null)
             {
-                throw new ArgumentException("Необходимо заполнить поле имя");
+                throw new ArgumentException("Необходимо заполнить поле имя", nameof(name));
             }
 
             if (name.Length <= 1)
             {
-                throw new ArgumentException($"Имя должно состоять из более чем одного символа, сейчас введено символов: {name.Length}");
+                throw new ArgumentException($"Имя должно состоять из более чем одного символа, сейчас введено символов: {name.Length}", nameof(name));
             }
 
-            _name = name;
-            _age = age;
+            Name = name;
+            Age = age;
         }
     }
 }

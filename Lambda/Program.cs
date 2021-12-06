@@ -8,7 +8,7 @@ namespace Lambda
     {
         public static void Main()
         {
-            var persons = new LinkedList<Person>(new[]
+            var persons = new List<Person>
             {
                 new Person("Ivan", 25),
                 new Person("Ivan", 13),
@@ -16,7 +16,7 @@ namespace Lambda
                 new Person("Sergey", 22),
                 new Person("Pyotr", 12),
                 new Person("Anton", 43)
-            });
+            };
 
             //А
             var uniqueNamesList = persons
@@ -46,7 +46,7 @@ namespace Lambda
             //Г
             var averageAgeByName = persons
                 .GroupBy(p => p.Name)
-                .ToDictionary(group => group.Key, group => group.ToList().Select(p => p.Age).Average());
+                .ToDictionary(group => group.Key, group => group.Average(p => p.Age));
 
             Console.WriteLine("Средний возраст людей, имеющих одинаковое имя:");
             Console.WriteLine(string.Join(", ", averageAgeByName));
@@ -55,11 +55,11 @@ namespace Lambda
             const int minAge = 20;
             const int maxAge = 45;
 
-            var personsInRangeAges = persons
+            var personsInAgesRange = persons
                 .Where(p => p.Age >= minAge && p.Age <= maxAge)
                 .ToList();
 
-            var personsNamesDescendingByAge = personsInRangeAges
+            var personsNamesDescendingByAge = personsInAgesRange
                 .OrderByDescending(p => p.Age)
                 .Select(p => p.Name)
                 .ToArray();
