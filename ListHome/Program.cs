@@ -19,9 +19,24 @@ namespace ListHome
                     Console.WriteLine(line);
                 }
             }
-            catch (IOException e)
+            catch (FileNotFoundException e)
             {
                 Console.WriteLine("Исходный файл не найден");
+                Console.WriteLine(e);
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine("Указанная директория не найдена");
+                Console.WriteLine(e);
+            }
+            catch (PathTooLongException e)
+            {
+                Console.WriteLine("Путь или полное имя файла длиннее, чем максимальная длина, определенная системой");
+                Console.WriteLine(e);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("Ошибка при работе с файлом. Подробную информацию можно получить из стека вызовов");
                 Console.WriteLine(e);
             }
 
@@ -34,13 +49,13 @@ namespace ListHome
             Console.WriteLine(string.Join(", ", numbersList));
 
             var numbersListWithDuplicates = new List<int> { 1, 5, 6, 9, 8, 9, 6, 8, 1, 1, 5, 6, 1, 5, 6 };
-            var listWithoutDuplicates = GetListWithoutDuplicates(numbersListWithDuplicates);
+            var numbersListWithoutDuplicates = GetListWithoutDuplicates(numbersListWithDuplicates);
 
             Console.WriteLine("Список до удаления повторяющихся чисел:");
             Console.WriteLine(string.Join(", ", numbersListWithDuplicates));
 
             Console.WriteLine("Список после удаления повторяющихся чисел:");
-            Console.WriteLine(string.Join(", ", listWithoutDuplicates));
+            Console.WriteLine(string.Join(", ", numbersListWithoutDuplicates));
         }
 
         public static List<string> GetLinesFromFile(string filePath)
@@ -71,17 +86,17 @@ namespace ListHome
 
         public static List<int> GetListWithoutDuplicates(List<int> list)
         {
-            var listWithoutDuplicates = new List<int>(list.Count);
+            var numbersListWithoutDuplicates = new List<int>(list.Count);
 
             foreach (var e in list)
             {
-                if (!listWithoutDuplicates.Contains(e))
+                if (!numbersListWithoutDuplicates.Contains(e))
                 {
-                    listWithoutDuplicates.Add(e);
+                    numbersListWithoutDuplicates.Add(e);
                 }
             }
 
-            return listWithoutDuplicates;
+            return numbersListWithoutDuplicates;
         }
     }
 }
