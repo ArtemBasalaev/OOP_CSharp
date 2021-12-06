@@ -64,8 +64,9 @@ namespace ShapesTask.Shapes
 
             var rectangle = (Rectangle)obj;
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return rectangle._width == _width && rectangle._height == _height;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         public override int GetHashCode()

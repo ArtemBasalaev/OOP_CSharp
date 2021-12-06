@@ -126,10 +126,11 @@ namespace ShapesTask.Shapes
 
             var triangle = (Triangle)obj;
 
-            // ReSharper disable once CompareOfFloatsByEqualityOperator
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             return triangle._x1 == _x1 && triangle._y1 == _y1
-                                       && triangle._x2 == _x2 && triangle._y2 == _y2
-                                       && triangle._x3 == _x3 && triangle._y3 == _y3;
+                && triangle._x2 == _x2 && triangle._y2 == _y2
+                && triangle._x3 == _x3 && triangle._y3 == _y3;  
+            // ReSharper restore CompareOfFloatsByEqualityOperator
         }
 
         public override int GetHashCode()
