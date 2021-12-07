@@ -4,9 +4,9 @@ namespace Lambda
 {
     public class Person
     {
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public int Age { get; private set; }
+        public int Age { get; }
 
         public Person(string name, int age)
         {
@@ -17,7 +17,7 @@ namespace Lambda
 
             if (name == null)
             {
-                throw new ArgumentException("Необходимо заполнить поле имя", nameof(name));
+                throw new ArgumentNullException(nameof(name), "Необходимо заполнить поле имя");
             }
 
             if (name.Length <= 1)
