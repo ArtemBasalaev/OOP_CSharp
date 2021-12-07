@@ -19,25 +19,21 @@ namespace ListHome
                     Console.WriteLine(line);
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 Console.WriteLine("Исходный файл не найден");
-                Console.WriteLine(e);
             }
-            catch (DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException)
             {
                 Console.WriteLine("Указанная директория не найдена");
-                Console.WriteLine(e);
             }
-            catch (PathTooLongException e)
+            catch (PathTooLongException)
             {
                 Console.WriteLine("Путь или полное имя файла длиннее, чем максимальная длина, определенная системой");
-                Console.WriteLine(e);
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 Console.WriteLine("Ошибка при работе с файлом. Подробную информацию можно получить из стека вызовов");
-                Console.WriteLine(e);
             }
 
             var numbersList = new List<int> { 4, 5, 6, 4, 5, 3, 2, 3 };
@@ -86,17 +82,17 @@ namespace ListHome
 
         public static List<int> GetListWithoutDuplicates(List<int> list)
         {
-            var numbersListWithoutDuplicates = new List<int>(list.Count);
+            var listWithoutDuplicates = new List<int>(list.Count);
 
             foreach (var e in list)
             {
-                if (!numbersListWithoutDuplicates.Contains(e))
+                if (!listWithoutDuplicates.Contains(e))
                 {
-                    numbersListWithoutDuplicates.Add(e);
+                    listWithoutDuplicates.Add(e);
                 }
             }
 
-            return numbersListWithoutDuplicates;
+            return listWithoutDuplicates;
         }
     }
 }
