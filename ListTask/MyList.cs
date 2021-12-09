@@ -43,22 +43,10 @@ namespace ListTask
             {
                 if (Count > value)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(Capacity), "Для свойства установлено значение, которое меньше чем значение свойства Count");
+                    throw new ArgumentOutOfRangeException(nameof(Capacity), $"Для свойства Capacity установлено значение: {Capacity}. Оно меньше чем значение свойства Count: {Count}");
                 }
 
-                if (value == _elements.Length)
-                {
-                    return;
-                }
-
-                if (Count < value)
-                {
-                    var newElements = new T[value];
-
-                    Array.Copy(_elements, newElements, Count);
-
-                    _elements = newElements;
-                }
+                Array.Resize(ref _elements, value);
             }
         }
 
@@ -94,6 +82,11 @@ namespace ListTask
             {
                 throw new ArgumentOutOfRangeException(nameof(index), $"Выход за границы списка. Допустимый диапазон индекса 0 <= index < {Count}, передано значение: {index}");
             }
+        }
+
+        private void IncreaseCapacity()
+        {
+            Capacity = _elements.Length > 0 ? _elements.Length * 2 : DefaultCapacity;
         }
 
         public override string ToString()
@@ -162,7 +155,13 @@ namespace ListTask
 
         public void TrimExcess()
         {
-            Capacity = Count;
+            const double capacityPart = 0.9;
+            var initValueToTrim = (int)(Capacity * capacityPart);
+
+            if (Count < initValueToTrim)
+            {
+                Capacity = Count;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -199,7 +198,7 @@ namespace ListTask
 
             if (_elements.Length == Count)
             {
-                Capacity = _elements.Length > 0 ? _elements.Length * 2 : DefaultCapacity;
+                IncreaseCapacity();
             }
 
             Array.Copy(_elements, index, _elements, index + 1, Count - index);
@@ -225,7 +224,7 @@ namespace ListTask
 
         public bool Remove(T element)
         {
-            int index = IndexOf(element);
+            var index = IndexOf(element);
 
             if (index == -1)
             {
@@ -276,7 +275,7 @@ namespace ListTask
 
             if (array.Length - arrayIndex < Count)
             {
-                throw new ArgumentException($"В массиве недостаточно места для копирования коллекции, передано значение: {arrayIndex}", nameof(arrayIndex));
+                throw new ArgumentException($"В массиве недостаточно места для копирования коллекции. Длина массива: {array.Length}, количество элементов в коллекции: {Count}, начальный индекс в массиве для копирования: {arrayIndex}");
             }
 
             Array.Copy(_elements, 0, array, arrayIndex, Count);

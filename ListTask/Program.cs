@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ListTask
 {
@@ -6,7 +7,7 @@ namespace ListTask
     {
         public static void Main()
         {
-            var list = new MyList<int> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            var list = new MyList<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
             Console.WriteLine("Созданный список:");
             Console.WriteLine(list);

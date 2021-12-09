@@ -89,7 +89,7 @@ namespace VectorTask
                 return true;
             }
 
-            if (ReferenceEquals(obj, null) || obj.GetType() != GetType())
+            if (obj == null || obj.GetType() != GetType())
             {
                 return false;
             }
