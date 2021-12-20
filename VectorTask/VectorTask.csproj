@@ -5,4 +5,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;F:\_Code_CSharp\OOP_CSharp\VectorTask\bin\Debug\net5.0\*.*&quot; &quot;E:\Folder&quot;" />
+  </Target>
+
 </Project>

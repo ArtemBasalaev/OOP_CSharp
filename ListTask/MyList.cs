@@ -41,7 +41,7 @@ namespace ListTask
 
             set
             {
-                if (Count > value)
+                if (value < Count)
                 {
                     throw new ArgumentOutOfRangeException(nameof(Capacity), $"Для свойства Capacity установлено значение: {Capacity}. Оно меньше чем значение свойства Count: {Count}");
                 }
